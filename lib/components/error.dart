@@ -34,6 +34,7 @@ class Error extends StatelessWidget {
           ),
           ElevatedButton(
             onPressed: callback,
+            style: ElevatedButton.styleFrom(primary: Colors.deepOrange),
             child: const Text("Tentar novamente"),
           ),
         ],

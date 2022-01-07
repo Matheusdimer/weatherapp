@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:weatherapp/models/weather_model.dart';
 import 'package:weatherapp/utils/utils.dart';
 
 class CurrentWeather extends StatelessWidget {
-  final Map<String, dynamic> weather;
+  final WeatherModel weather;
 
   final temperaturaStyle = GoogleFonts.openSans(
     fontSize: 70,
@@ -23,6 +24,8 @@ class CurrentWeather extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currentWeather = weather.current.weather[0];
+
     return Expanded(
       flex: 2,
       child: Center(
@@ -30,7 +33,7 @@ class CurrentWeather extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              ' ${parseTemperature(weather["current"]["temp"])}',
+              ' ${parseTemperature(weather.current.temp)}',
               style: temperaturaStyle,
             ),
             Padding(
@@ -39,11 +42,11 @@ class CurrentWeather extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.network(
-                    "http://openweathermap.org/img/wn/${weather["current"]["weather"][0]["icon"]}@2x.png",
+                    "http://openweathermap.org/img/wn/${currentWeather.icon}@2x.png",
                     scale: 2,
                   ),
                   Text(
-                    parseTitle(weather["current"]["weather"][0]["description"]),
+                    parseTitle(currentWeather.description),
                     style: normalFont,
                   )
                 ],
@@ -62,9 +65,7 @@ class CurrentWeather extends StatelessWidget {
                     width: 10,
                   ),
                   Text(
-                    (weather["current"]["wind_speed"] as double)
-                            .toStringAsFixed(0) +
-                        " km/h",
+                    weather.current.windSpeed.toStringAsFixed(0) + " km/h",
                     style: normalFont,
                   )
                 ],

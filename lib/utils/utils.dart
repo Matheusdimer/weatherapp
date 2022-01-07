@@ -1,5 +1,4 @@
-String parseTitle(Object object) {
-  var string = object.toString();
+String parseTitle(String string) {
   return string[0].toUpperCase() + string.substring(1);
 }
 
@@ -8,7 +7,7 @@ String parseTemperature(Object object) {
     return object.toStringAsFixed(0) + "°";
   }
 
-  return object.toString();
+  return object.toString() + "°";
 }
 
 const weekDays = [

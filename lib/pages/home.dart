@@ -1,8 +1,4 @@
-import 'dart:convert';
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:weatherapp/components/current_weather.dart';
 import 'package:weatherapp/components/daily.dart';
 import 'package:weatherapp/components/error.dart';
@@ -10,10 +6,11 @@ import 'package:weatherapp/components/gradient.dart';
 import 'package:weatherapp/components/loading.dart';
 import 'package:weatherapp/components/search_bar.dart';
 import 'package:weatherapp/controllers/weather_controller.dart';
-import 'package:weatherapp/utils/geolocation.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
+
+  static const routeName = "/";
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -35,7 +32,7 @@ class _HomePageState extends State<HomePage> {
 
       case HomeState.error:
         return Error(
-          message: _controller.weather["message"],
+          message: _controller.errorDetail.message,
           callback: _controller.getWeather,
         );
 
@@ -44,7 +41,7 @@ class _HomePageState extends State<HomePage> {
           children: [
             SearchBar(controller: _controller),
             CurrentWeather(weather: _controller.weather),
-            DailyWeather(data: _controller.weather["daily"])
+            DailyWeather(data: _controller.weather.daily)
           ],
         );
     }
@@ -54,10 +51,11 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: GradientBox(
-          child: AnimatedBuilder(
-        animation: _controller.state,
-        builder: (context, widget) => _stateBuilder(_controller.state.value),
-      )),
+        child: AnimatedBuilder(
+          animation: _controller.state,
+          builder: (context, widget) => _stateBuilder(_controller.state.value),
+        ),
+      ),
     );
   }
 }
